@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MatchWatch – UI Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0f;
+    --surface: #13131a;
+    --card: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #e8403a;
+    --accent2: #ff7b54;
+    --text: #f0f0f5;
+    --muted: #7070a0;
+    --success: #3adb76;
+    --bubble-out: #e8403a;
+    --bubble-in: #22223a;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+  }
+
+  /* noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-header {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #f0f0f5 30%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Section labels */
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 5px 14px;
+    border-radius: 2px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 700;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .phones-row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    width: 100%;
+  }
+
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .flow-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* Phone shell */
+  .phone {
+    width: 280px;
+    height: 580px;
+    background: #0e0e16;
+    border-radius: 44px;
+    border: 2px solid var(--border);
+    box-shadow:
+      0 0 0 6px #18181f,
+      0 0 0 8px var(--border),
+      0 40px 80px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Notch */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 28px;
+    background: #0a0a10;
+    border-radius: 0 0 18px 18px;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Status bar */
+  .status-bar {
+    height: 44px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 22px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  .status-bar .time { font-size: 11px; font-family: 'Syne', sans-serif; }
+  .status-icons { display: flex; gap: 5px; align-items: center; }
+  .status-icons span { font-size: 10px; }
+
+  /* App bar */
+  .app-bar {
+    background: var(--surface);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .app-bar .back { font-size: 16px; color: var(--accent); cursor: pointer; }
+  .app-bar .title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; flex: 1; }
+  .app-bar .avatar-sm {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: white;
+  }
+
+  /* Screen content */
+  .screen {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+
+  .scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: none;
+  }
+  .scroll-content::-webkit-scrollbar { display: none; }
+
+  /* Search bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 9px 14px;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .search-bar .icon { font-size: 14px; }
+  .search-bar input-sim { color: var(--text); }
+
+  /* User result card */
+  .user-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #3a3aff, #e8403a);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .avatar.green { background: linear-gradient(135deg, #1a6b4a, #3adb76); }
+  .avatar.orange { background: linear-gradient(135deg, #8b3a00, #ff7b54); }
+
+  .user-info { flex: 1; }
+  .user-info .name { font-size: 13px; font-weight: 600; }
+  .user-info .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Buttons */
+  .btn {
+    border: none; cursor: pointer; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600;
+    font-size: 12px; padding: 8px 14px; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #cc3530; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-success { background: var(--success); color: #001a0d; }
+  .btn-sm { padding: 6px 10px; font-size: 11px; border-radius: 8px; }
+
+  /* Toast / alert */
+  .toast {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toast.error { border-color: var(--accent); }
+  .toast.success { border-color: var(--success); }
+  .toast .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .toast.error .dot { background: var(--accent); }
+  .toast.success .dot { background: var(--success); }
+
+  /* Friends list */
+  .friends-list { display: flex; flex-direction: column; gap: 8px; }
+
+  /* Section mini header */
+  .mini-header {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--muted); padding: 4px 0 2px;
+  }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+  /* Chat bubbles */
+  .bubble-row { display: flex; flex-direction: column; gap: 6px; }
+  .bubble { max-width: 75%; padding: 9px 12px; border-radius: 16px; font-size: 12px; line-height: 1.4; }
+  .bubble.out {
+    background: var(--bubble-out);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .bubble.in {
+    background: var(--bubble-in);
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble-time { font-size: 9px; color: var(--muted); padding: 0 4px; }
+  .bubble-time.right { text-align: right; }
+
+  /* Failed bubble */
+  .bubble.failed {
+    background: var(--card);
+    border: 1px dashed var(--accent);
+    color: var(--muted);
+    align-self: flex-end;
+  }
+  .failed-row { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .failed-icon { font-size: 11px; color: var(--accent); }
+  .failed-label { font-size: 10px; color: var(--accent); }
+
+  /* Chat input bar */
+  .chat-input {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .chat-input .input-field {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 8px 14px; font-size: 12px; color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chat-input .send-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: white; flex-shrink: 0;
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    padding: 8px 0 14px;
+    flex-shrink: 0;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 9px; color: var(--muted); cursor: pointer;
+  }
+  .nav-item.active { color: var(--accent); }
+  .nav-item .nav-icon { font-size: 18px; }
+
+  /* friend request pending card */
+  .request-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .request-card .actions { display: flex; gap: 8px; margin-top: 10px; }
+
+  /* Profile view */
+  .profile-banner {
+    background: linear-gradient(160deg, #1a1a2e, #2a0a0a);
+    padding: 20px 16px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .profile-banner .big-avatar {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, #3a3aff, #e8403a);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white;
+    margin: 0 auto 8px;
+    border: 2px solid var(--accent);
+  }
+  .profile-banner .pname { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
+  .profile-banner .pmeta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .profile-stats {
+    display: flex; justify-content: space-around; padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat { text-align: center; }
+  .stat .val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--accent); }
+  .stat .key { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* connecting arrow between phones */
+  .arrow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding-top: 60px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .arrow-connector .arr { font-size: 22px; color: var(--accent); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .phone { animation: fadeUp 0.5s ease both; }
+  .phones-row .phone-wrapper:nth-child(1) .phone { animation-delay: 0.1s; }
+  .phones-row .phone-wrapper:nth-child(2) .phone { animation-delay: 0.25s; }
+  .phones-row .phone-wrapper:nth-child(3) .phone { animation-delay: 0.4s; }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--success);
+    display: inline-block; animation: pulse-dot 1.5s infinite;
+  }
+
+  .offline-badge {
+    background: #2a1010; border: 1px solid var(--accent);
+    border-radius: 8px; padding: 6px 10px; font-size: 11px;
+    color: var(--accent); display: flex; align-items: center; gap: 6px;
+  }
+
+  .queued-badge {
+    background: #1a1a10; border: 1px solid #a0a030;
+    border-radius: 8px; padding: 6px 10px; font-size: 11px;
+    color: #d0d040; display: flex; align-items: center; gap: 6px;
+  }
+
+  .section-divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>MatchWatch</h1>
+  <p>UI Scenario Mockups · User Stories 1 &amp; 2</p>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     USER STORY 1 — FRIENDS
+═══════════════════════════════════════════════ -->
+
+<section class="section">
+  <span class="section-label">User Story 1</span>
+  <h2 class="section-title">Friends — Normal Flow: Search &amp; Send Request</h2>
+
+  <div class="phones-row">
+
+    <!-- Phone 1: Alice searches for Bob -->
+    <div class="phone-wrapper">
+      <span class="flow-label">Step 1 · Alice searches</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">9:41</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="title">Find Friends</span>
+        </div>
+        <div class="screen">
+          <div class="scroll-content">
+            <div class="search-bar">
+              <span class="icon">🔍</span>
+              <span style="color:var(--text);font-size:13px;">Bob</span>
+              <span style="width:1px;height:14px;background:var(--accent);margin-left:1px;animation:pulse-dot 1s infinite;"></span>
+            </div>
+            <div class="mini-header">Results</div>
+            <div class="user-card">
+              <div class="avatar green">B</div>
+              <div class="user-info">
+                <div class="name">Bob</div>
+                <div class="sub">@bob · 42 reviews</div>
+              </div>
+              <button class="btn btn-primary btn-sm">Add</button>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></div>
+            <div class="nav-item active"><span class="nav-icon">👥</span><span>Friends</span></div>
+            <div class="nav-item"><span class="nav-icon">🎬</span><span>Watch</span></div>
+            <div class="nav-item"><span class="nav-icon">💬</span><span>Chat</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <span class="arr">→</span>
+      <span>request sent</span>
+    </div>
+
+    <!-- Phone 2: Bob receives request -->
+    <div class="phone-wrapper">
+      <span class="flow-label">Step 2 · Bob accepts</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">9:43</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="title">Friend Requests</span>
+          <span style="background:var(--accent);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;">1</span>
+        </div>
+        <div class="screen">
+          <div class="scroll-content">
+            <div class="mini-header">Pending</div>
+            <div class="request-card">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="avatar orange">A</div>
+                <div class="user-info">
+                  <div class="name">Alice</div>
+                  <div class="sub">@alice · 18 reviews</div>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-success btn-sm" style="flex:1;">✓ Accept</button>
+                <button class="btn btn-outline btn-sm" style="flex:1;">Decline</button>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></div>
+            <div class="nav-item active"><span class="nav-icon">👥</span><span>Friends</span></div>
+            <div class="nav-item"><span class="nav-icon">🎬</span><span>Watch</span></div>
+            <div class="nav-item"><span class="nav-icon">💬</span><span>Chat</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <span class="arr">→</span>
+      <span>accepted</span>
+    </div>
+
+    <!-- Phone 3: Alice views Bob's profile -->
+    <div class="phone-wrapper">
+      <span class="flow-label">Step 3 · View profile</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">9:44</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="back">‹</span>
+          <span class="title">Bob's Profile</span>
+        </div>
+        <div class="screen">
+          <div class="profile-banner">
+            <div class="big-avatar">B</div>
+            <div class="pname">Bob</div>
+            <div class="pmeta">@bob</div>
+          </div>
+          <div class="profile-stats">
+            <div class="stat"><div class="val">42</div><div class="key">Reviews</div></div>
+            <div class="stat"><div class="val">17</div><div class="key">Watchlist</div></div>
+            <div class="stat"><div class="val">5</div><div class="key">Parties</div></div>
+          </div>
+          <div class="scroll-content">
+            <div class="toast success">
+              <div class="dot"></div>
+              <span>You and Bob are now friends!</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%;border-radius:12px;padding:11px;font-size:13px;">🎬 Invite to Watch Party</button>
+            <div class="mini-header">Recent Reviews</div>
+            <div class="user-card" style="flex-direction:column;align-items:flex-start;gap:4px;">
+              <div style="font-size:12px;font-weight:600;">Dune: Part Two</div>
+              <div style="font-size:11px;color:var(--accent);">★★★★★</div>
+              <div style="font-size:11px;color:var(--muted);">"Visually stunning epic."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════
+     USER STORY 1 — EXCEPTIONAL FLOW
+═══════════════════════════════════════════════ -->
+
+<section class="section">
+  <span class="section-label">User Story 1 · Exceptional</span>
+  <h2 class="section-title">Friends — Exceptional Flow: User Not Found</h2>
+
+  <div class="phones-row">
+    <div class="phone-wrapper">
+      <span class="flow-label">Alice searches unknown user</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">9:41</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="title">Find Friends</span>
+        </div>
+        <div class="screen">
+          <div class="scroll-content">
+            <div class="search-bar">
+              <span class="icon">🔍</span>
+              <span style="color:var(--text);font-size:13px;">UnknownUser</span>
+            </div>
+            <div class="toast error" style="margin-top:4px;">
+              <div class="dot"></div>
+              <span>User not found. Check the username and try again.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:30px 0;color:var(--muted);">
+              <span style="font-size:36px;opacity:0.3;">👤</span>
+              <span style="font-size:12px;">No results for "UnknownUser"</span>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></div>
+            <div class="nav-item active"><span class="nav-icon">👥</span><span>Friends</span></div>
+            <div class="nav-item"><span class="nav-icon">🎬</span><span>Watch</span></div>
+            <div class="nav-item"><span class="nav-icon">💬</span><span>Chat</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════
+     USER STORY 2 — CHAT NORMAL FLOW
+═══════════════════════════════════════════════ -->
+
+<section class="section">
+  <span class="section-label">User Story 2</span>
+  <h2 class="section-title">Chat — Normal Flow: Sending a Message</h2>
+
+  <div class="phones-row">
+
+    <!-- Alice's phone: sending -->
+    <div class="phone-wrapper">
+      <span class="flow-label">Alice sends a message</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">10:15</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="back">‹</span>
+          <div class="avatar-sm">B</div>
+          <span class="title" style="font-size:13px;">Bob</span>
+        </div>
+        <div class="screen">
+          <div class="scroll-content">
+            <div class="bubble-row">
+              <div class="bubble in">Hey, did you watch Oppenheimer yet?</div>
+              <span class="bubble-time">10:08</span>
+              <div class="bubble out">Just finished it! 🤯</div>
+              <span class="bubble-time right">10:10</span>
+              <div class="bubble in">Right?? What did you think?</div>
+              <span class="bubble-time">10:12</span>
+              <div class="bubble out">That movie was amazing!</div>
+              <span class="bubble-time right">10:15</span>
+            </div>
+          </div>
+          <div class="chat-input">
+            <div class="input-field" style="color:var(--muted);">Message Bob…</div>
+            <button class="send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-connector">
+      <span class="arr">→</span>
+      <span>delivered</span>
+    </div>
+
+    <!-- Bob's phone: receiving -->
+    <div class="phone-wrapper">
+      <span class="flow-label">Bob receives it</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">10:15</span>
+          <div class="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+
+        <div class="app-bar">
+          <span class="back">‹</span>
+          <div class="avatar-sm" style="background:linear-gradient(135deg,#8b3a00,#ff7b54);">A</div>
+          <span class="title" style="font-size:13px;">Alice</span>
+        </div>
+        <div class="screen">
+          <div class="scroll-content">
+            <div class="bubble-row">
+              <div class="bubble out">Hey, did you watch Oppenheimer yet?</div>
+              <span class="bubble-time right">10:08</span>
+              <div class="bubble in">Just finished it! 🤯</div>
+              <span class="bubble-time">10:10</span>
+              <div class="bubble out">Right?? What did you think?</div>
+              <span class="bubble-time right">10:12</span>
+              <div class="bubble in">That movie was amazing!</div>
+              <span class="bubble-time">10:15</span>
+            </div>
+          </div>
+          <div class="chat-input">
+            <div class="input-field" style="color:var(--muted);">Reply to Alice…</div>
+            <button class="send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════
+     USER STORY 2 — EXCEPTIONAL FLOW
+═══════════════════════════════════════════════ -->
+
+<section class="section">
+  <span class="section-label">User Story 2 · Exceptional</span>
+  <h2 class="section-title">Chat — Exceptional Flow: No Connection</h2>
+
+  <div class="phones-row">
+    <div class="phone-wrapper">
+      <span class="flow-label">Alice is offline</span>
+      <div class="phone">
+        <div class="status-bar">
+          <span class="time">11:02</span>
+          <div class="status-icons"><span style="color:var(--accent);">✕ No Signal</span><span>🔋</span></div>
+        </div>
+        <div class="app-bar">
+          <span class="back">‹</span>
+          <div class="avatar-sm">B</div>
+          <span class="title" style="font-size:13px;">Bob</span>
+        </div>
+        <div class="screen">
+          <div class="offline-badge" style="margin:10px 14px 0;">
+            <span>📡</span>
+            <span>No internet connection</span>
+          </div>
+          <div class="scroll-content">
+            <div class="bubble-row">
+              <div class="bubble in">What should we watch tonight?</div>
+              <span class="bubble-time">10:58</span>
+
+              <div class="bubble failed">How about Interstellar? Haven't seen it yet 🎬</div>
+              <div class="failed-row">
+                <span class="failed-icon">⚠</span>
+                <span class="failed-label">Failed to send</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input" style="opacity:0.5;">
+            <div class="input-field" style="color:var(--muted);">No connection…</div>
+            <button class="send-btn" style="background:var(--muted);cursor:not-allowed;">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
